@@ -1,5 +1,4 @@
 com/mycompany/ssn/resources/JakartaEE10Resource.class
-com/mycompany/ssn/beans/em.class
 com/mycompany/ssn/v1/Models/XCommentOLD.class
 com/mycompany/ssn/v1/exceptions/DoesNotExistException.class
 com/mycompany/ssn/v1/exceptions/UserNotLoggedInException.class

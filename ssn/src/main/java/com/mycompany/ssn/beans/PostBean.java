@@ -211,7 +211,7 @@ public class PostBean implements Serializable {
         if (user == null) {
             throw new DoesNotExistException("User does not exist.");
         }
-        post.addLike(user.getId());
+        //post.addLike(user.getUserId());
     }
 
 /**
