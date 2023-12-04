@@ -191,9 +191,9 @@ public class PostBean implements Serializable {
      */    
     public void toggleLike(Users user, Posts post) throws DoesNotExistException {
         if(postIsLikedByUser(user, post)){
-            //removeLike(user, post);
+            removeLike(user, post);
         } else {
-            //addLike(user, post);
+            addLike(user, post);
         }
     }
 
@@ -211,7 +211,10 @@ public class PostBean implements Serializable {
         if (user == null) {
             throw new DoesNotExistException("User does not exist.");
         }
-        //post.addLike(user.getUserId());
+
+        // Adds a like to the post
+        post.getUsersCollection().add(user);
+
     }
 
 /**
@@ -221,14 +224,16 @@ public class PostBean implements Serializable {
      * @param post The post from which the like is removed.
      * @throws DoesNotExistException If the post or user does not exist.
      */
-    public void removeLike(XUserOLD user, XPostOLD post) throws DoesNotExistException {
+    public void removeLike(Users user, Posts post) throws DoesNotExistException {
         if (post == null) {
             throw new DoesNotExistException("Post does not exist.");
         }
         if (user == null) {
             throw new DoesNotExistException("User does not exist.");
         }
-        post.removeLike(user.getId());
+
+        // Removes a like from the post
+        post.getUsersCollection().remove(user);
     }
 
 /**
@@ -247,14 +252,8 @@ public class PostBean implements Serializable {
             throw new DoesNotExistException("User does not exist.");
         }
 
-        boolean isLiked = false;
-        for (Users aUser : post.getUsersCollection()) {
-            if (Objects.equals(aUser.getUserId(), user.getUserId())) {
-                isLiked = true;
-            }
-        }
+        return post.getUsersCollection().contains(user);
 
-        return isLiked;
     }
 /**
      * Retrieves a post based on its ID.
