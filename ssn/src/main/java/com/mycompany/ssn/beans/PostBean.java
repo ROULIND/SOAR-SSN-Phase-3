@@ -17,6 +17,8 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -188,7 +190,8 @@ public class PostBean implements Serializable {
      * @param user The user performing the like/unlike action.
      * @param post The post to like/unlike.
      * @throws DoesNotExistException If the post or user does not exist.
-     */    
+     */
+    @Transactional
     public void toggleLike(Users user, Posts post) throws DoesNotExistException {
         if(postIsLikedByUser(user, post)){
             removeLike(user, post);
@@ -214,6 +217,7 @@ public class PostBean implements Serializable {
 
         // Adds a like to the post
         post.getUsersCollection().add(user);
+        em.merge(post);
 
     }
 
