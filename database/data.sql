@@ -1,3 +1,17 @@
+-- Clearing all data from tables
+DELETE FROM Followers;
+DELETE FROM Likes;
+DELETE FROM Comments;
+DELETE FROM Posts;
+DELETE FROM Users;
+
+-- Resetting the auto-increment values
+ALTER TABLE Users AUTO_INCREMENT = 1;
+ALTER TABLE Posts AUTO_INCREMENT = 1;
+ALTER TABLE Comments AUTO_INCREMENT = 1;
+ALTER TABLE Likes AUTO_INCREMENT = 1;
+ALTER TABLE Followers AUTO_INCREMENT = 1;   
+
 -- Données fictives pour la table Users
 INSERT INTO Users (first_name, last_name, username, email, password) VALUES
 ('Alice', 'Martin', 'alice123', 'alice.martin@email.com', 1509442),

@@ -180,11 +180,11 @@ public class UserBean implements Serializable {
      *
      * @param targettedUser The user to modify.
      */    
-    /*public void modifyAUser(UserOLD targettedUser) {
+    /*public void modifyAUser(Users targettedUser) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         // Check if the username or email is already taken by another user
         try {
-            for (UserOLD user : MockDatabase.getUsers()) {
+            for (Users user : ) {
                 if (user.getId() != targettedUser.getId()) {
                     if (user.getUsername().equals(this.username)) {
                         throw new IllegalStateException("Username already used.");
@@ -428,13 +428,16 @@ public class UserBean implements Serializable {
  * @param userToFollow The user to follow.
  * @throws UnauthorizedActionException If the action is not authorized.
  */
-    public void followUser(XUserOLD user, XUserOLD userToFollow) throws UnauthorizedActionException {
-        if (user.getFollowing().contains(userToFollow)) {
+    public void followUser(Users user, Users userToFollow) throws UnauthorizedActionException {
+        if (user.getUsersCollection1().contains(userToFollow)) {
             return;
         }
 
-        userToFollow.addFollower(user);
-        user.addFollowing(userToFollow);
+        // Adds a like to the post
+        userToFollow.getUsersCollection().add(user);
+        user.getUsersCollection1().add(userToFollow);
+        em.merge(userToFollow);
+        em.merge(user);
 
 
     }
@@ -445,24 +448,28 @@ public class UserBean implements Serializable {
  * @param user The current user.
  * @param userToUnfollow The user to unfollow.
  */
-    public void unfollowUser(XUserOLD user, XUserOLD userToUnfollow){
-        if ((!userToUnfollow.getFollowers().contains(user)) && !(user.getFollowing().contains(userToUnfollow))) {
+    public void unfollowUser(Users user, Users userToUnfollow){
+        if ((!userToUnfollow.getUsersCollection().contains(user)) && !(user.getUsersCollection1().contains(userToUnfollow))) {
             return;
         }
-        userToUnfollow.getFollowers().remove(user);
-        user.getFollowing().remove(userToUnfollow);
+        // Adds a like to the post
+        userToUnfollow.getUsersCollection().remove(user);
+        user.getUsersCollection1().remove(userToUnfollow);
+        em.merge(userToUnfollow);
+        em.merge(user);
         
     }
     
-/**
- * Toggles the follow status of the current user for another user.
- *
- * @param user The current user.
- * @param userTargeted The user to toggle follow status.
- * @throws UnauthorizedActionException If the action is not authorized.
- */    
-    public void toggleFollow(XUserOLD user, XUserOLD userTargetted) throws UnauthorizedActionException{
-        if ((userTargetted.getFollowers().contains(user)) && (user.getFollowing().contains(userTargetted))) {
+    /**
+     * Toggles the follow status of the current user for another user.
+     *
+     * @param user The
+     * @param userTargetted The user to toggle follow status.
+     * @throws UnauthorizedActionException If the action is not authorized.
+     */    
+    @Transactional
+    public void toggleFollow(Users user, Users userTargetted) throws UnauthorizedActionException{
+        if ((userTargetted.getUsersCollection().contains(user)) && (user.getUsersCollection1().contains(userTargetted))) {
             unfollowUser(user, userTargetted);
         } else {
             followUser(user, userTargetted);
@@ -505,8 +512,9 @@ public class UserBean implements Serializable {
  * @param userToCheck The user to check if the current user is following.
  * @return boolean True if the current user is following, false otherwise.
  */    
-    public boolean checkIfFollowing(XUserOLD user, XUserOLD userToCheck) {
-        if ((userToCheck.getFollowers().contains(user)) && (user.getFollowing().contains(userToCheck))) {
+    public boolean checkIfFollowing(Users user, Users userToCheck) {
+             
+        if ((userToCheck.getUsersCollection().contains(user)) && (user.getUsersCollection1().contains(userToCheck))) {
             return true;
         } else {
             return false;

@@ -95,21 +95,14 @@ public class PostBean implements Serializable {
      * Retrieves posts made by a specific user.
      *
      * @param user The user whose posts are to be retrieved.
-     * @return ArrayList<Post> The list of posts made by the user, reversed.
+     * @return ArrayList<Posts> The list of posts made by the user, reversed.
      */
-    public static ArrayList<XPostOLD> getPostsByUser(XUserOLD user) {
-        ArrayList<XPostOLD> postsByUser = new ArrayList<XPostOLD>();
-        for (XPostOLD post : posts) {
-            if (post.getUserId() == user.getId()) {
-                postsByUser.add(post);
-            }
-        }
-
-        // Creating a new list from the original posts list
-        List<XPostOLD> reversedPosts = new ArrayList<>(postsByUser);
+    public static ArrayList<Posts> getPostsByUser(Users user) {
+        // Create a new ArrayList from the collection
+        ArrayList<Posts> postsByUser = new ArrayList<>(user.getPostsCollection1());
 
         // Reverse the new list
-        Collections.reverse(reversedPosts);
+        Collections.reverse(postsByUser);
         return postsByUser;
     }
 

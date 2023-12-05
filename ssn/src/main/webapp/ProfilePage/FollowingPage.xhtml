@@ -19,9 +19,9 @@
             <center>
                 <!-- User Profile Picture and Username -->
                 <div class="image is-128x128">
-                    <img class="is-rounded" src="#{request.contextPath}/images/#{loginBean.getCurrentUser().profilePicture}" alt="User Picture" style="object-fit: cover; max-height: 128px;max-width: 128px;"/>
+                    <img class="is-rounded" src="#{request.contextPath}/images/#{loginBean.getCurrentUser().getPictureProfile()}" alt="User Picture" style="object-fit: cover; max-height: 128px;max-width: 128px;"/>
                 </div>
-                <h:outputText value="#{loginBean.getCurrentUser().username}" styleClass="is-size-5 m-2" />
+                <h:outputText value="#{loginBean.getCurrentUser().getUsername()}" styleClass="is-size-5 m-2" />
 
                 <!-- User Buttons -->
                 <h:form>
@@ -57,13 +57,13 @@
         <div class="main-content column">
             <!-- Title for Following Section -->
             <p class="has-text-centered title">Following</p>
-            <ui:repeat value="#{loginBean.currentUser.following}" var="user">
-                    <h:link outcome="#{userBean.goToProfilePage(user)}">
+            <ui:repeat value="#{loginBean.getCurrentUser().getUsersCollection1()}" var="following">
+                    <h:link outcome="#{userBean.goToProfilePage(following)}">
                         <div class="box m-3">
                             <span sstyle="cursor: pointer; color: black;" onmouseover="this.style.color='blue'" onmouseout="this.style.color='black'">
-                                <h:outputText value="#{user.username}" />
+                                <h:outputText value="#{following.getUsername()}" />
                             </span>
-                            <span>(Followers: #{user.followers.size()})</span>
+                            <span>(Followers: #{following.getUsersCollection().size()})</span>
                         </div>
                     </h:link>
             </ui:repeat>
@@ -71,13 +71,13 @@
         <!-- Right Column for Followers List -->
         <div class="column" style="padding-top: 65px;">
             <p class="has-text-centered title">Followers</p>
-            <ui:repeat value="#{loginBean.currentUser.followers}" var="user">
-                    <h:link outcome="#{userBean.goToProfilePage(user)}">
+            <ui:repeat value="#{loginBean.getCurrentUser().getUsersCollection()}" var="follower">
+                    <h:link outcome="#{userBean.goToProfilePage(follower)}">
                         <div class="box m-3">
                             <span sstyle="cursor: pointer; color: black;" onmouseover="this.style.color='blue'" onmouseout="this.style.color='black'">
-                                <h:outputText value="#{user.username}" />
+                                <h:outputText value="#{follower.getUsername()}" />
                             </span>
-                            <span>(Followers: #{user.followers.size()})</span>
+                            <span>(Followers: #{follower.getUsersCollection().size()})</span>
                         </div>
                     </h:link>
             </ui:repeat>
