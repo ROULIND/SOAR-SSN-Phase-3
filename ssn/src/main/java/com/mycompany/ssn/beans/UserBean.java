@@ -27,6 +27,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.primefaces.shaded.commons.io.FilenameUtils;
@@ -132,14 +133,16 @@ public class UserBean implements Serializable {
      */    
     /*public String deleteAUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-
+        
         try {
-            Users userToDelete = findByUsername(this.username);
+            Query query = em.createNamedQuery("Users.findByUsername");
+            List<Users> users = query.setParameter("username", this.username).getResultList();
+            Users userToDelete = users.get(0);
             if (userToDelete != null) {
                 
                 // Remove the user's posts
-                MockDatabase.getPosts().removeIf(post -> post.getUserId() == userToDelete.getId());
-                
+               userToDelete.getPostsCollection().empty();
+                      
                 
                 // Remove the user from the users list
                 MockDatabase.getUsers().remove(userToDelete);
@@ -180,12 +183,17 @@ public class UserBean implements Serializable {
      *
      * @param targettedUser The user to modify.
      */    
-    /*public void modifyAUser(Users targettedUser) {
+    @Transactional
+    public void modifyAUser(Users targettedUser) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         // Check if the username or email is already taken by another user
+        
+        Query query = em.createNamedQuery("Users.findAll");
+        List<Users> users = query.getResultList();
+        
         try {
-            for (Users user : ) {
-                if (user.getId() != targettedUser.getId()) {
+            for (Users user : users) {
+                if (!Objects.equals(user.getUserId(), targettedUser.getUserId())) {
                     if (user.getUsername().equals(this.username)) {
                         throw new IllegalStateException("Username already used.");
                     }
@@ -200,40 +208,23 @@ public class UserBean implements Serializable {
             return;
         }
         
+        targettedUser.setUsername(this.username);
+        targettedUser.setFirstName(this.firstName);
+        targettedUser.setLastName(this.lastName);
+        targettedUser.setEmail(this.email);
         
-        for (UserOLD user : MockDatabase.getUsers()) {
-            if (user.getId() == targettedUser.getId()) {
-               
-                user.setUsername(this.username);
-                user.setFirstName(this.firstName);
-                user.setLastName(this.lastName);
-                user.setEmail(this.email);
-                // Do not update the password here for security reasons
-                // If you need to update the password, ensure it's done securely
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informations sucessfully modified !", null));
-                break;
-            }
-        }
-    }*/
+        em.merge(targettedUser);
+        // Do not update the password here for security reasons
+        // If you need to update the password, ensure it's done securely
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informations sucessfully modified !", null));
 
-/**
-     * Finds a user based on their username.
-     *
-     * @param username The username to search for.
-     * @return User The found user.
-     * @throws DoesNotExistException If the user does not exist.
-     */        
-    /*protected static Users findByUsername(String username) throws DoesNotExistException {
-        for (Users user : Users.getUsersCollection) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        throw new DoesNotExistException("The user " + username + " does not exist.");
-    }*/
+        
+    }
 
-/**
-     * Checks if an email already exists in the MockDatabase.
+    
+
+    /**
+    * Checks if an email already exists in the MockDatabase.
     *
     * @return boolean True if the email exists, throws AlreadyExistsException otherwise.
     * @throws AlreadyExistsException If the email already exists.
@@ -241,7 +232,7 @@ public class UserBean implements Serializable {
     private boolean emailExists() throws AlreadyExistsException {
         Query query = em.createNamedQuery("Users.findByEmail");
         List<Users> users = query.setParameter("email", email).getResultList();
-        return users.size() > 0;
+        return !users.isEmpty();
     }
 
     
@@ -254,27 +245,13 @@ public class UserBean implements Serializable {
     private boolean usernameExists() throws DoesNotExistException {
         Query query = em.createNamedQuery("Users.findByUsername");
         List<Users> users = query.setParameter("username", username).getResultList();
-        return users.size() > 0;
+        return !users.isEmpty();
     }
     
 
-/**
-    * Gets a user based on their unique identifier (ID).
-    *
-     * @param id The ID of the user to retrieve.
-    * @return User The found user.
-    * @throws DoesNotExistException If the user with the given ID does not exist.
-    */
-    public XUserOLD getUserFromId(int id) throws DoesNotExistException {
-        for (XUserOLD user : MockDatabase.getUsers()) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        throw new DoesNotExistException("The user with id " + id + " does not exist.");
-    }
 
-/**
+
+    /**
      * Generates a unique ID for a new user.
      *
      * @return int The generated unique ID.
