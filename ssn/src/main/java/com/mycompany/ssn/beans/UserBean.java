@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -121,6 +122,24 @@ public class UserBean implements Serializable {
         } 
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
     }
+
+    public String getUserPictureProfile(Users user) {
+        String imagePath = user.getPictureProfile();
+
+        // Check if the image exists in the resources
+        // Note: This assumes that the 'images' directory is in the web-accessible resources folder
+        // Adjust the path according to your project structure
+        String imageUrl = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images/" + imagePath);
+        System.out.println(imageUrl);
+        if (imageUrl != null) {
+            // Image exists
+            return imagePath;
+        } else {
+            // Image does not exist, return default image path
+            return "Abstract-PP.jpg";
+        }
+    }
+
 
 /**
      * Deletes a user, removing associated posts, likes, and comments.
