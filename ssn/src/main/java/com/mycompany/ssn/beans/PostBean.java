@@ -1,13 +1,8 @@
 package com.mycompany.ssn.beans;
-import com.mycompany.ssn.v1.Models.XUserOLD;
-
-import com.mycompany.ssn.v1.Models.XCommentOLD;
-import com.mycompany.ssn.v1.Models.XPostOLD;
 import com.mycompany.ssn.beans.LoginBean;
 import com.mycompany.ssn.beans.UserBean;
 import com.mycompany.ssn.v1.Models.Posts;
 import com.mycompany.ssn.v1.Models.Users;
-import com.mycompany.ssn.v1.database.MockDatabase;
 import com.mycompany.ssn.v1.exceptions.DoesNotExistException;
 import com.mycompany.ssn.v1.exceptions.InvalidContentException;
 import com.mycompany.ssn.v1.exceptions.UnauthorizedActionException;
@@ -44,24 +39,9 @@ public class PostBean implements Serializable {
 
     private Posts selectedPost;
     // List for storing publications
-    private static List<XPostOLD> posts = new ArrayList<>(MockDatabase.getPosts());
-    
     private String errorMessage;
 
-/**
-     * Retrieves a post based on its ID.
-     *
-     * @param id The ID of the post to retrieve.
-     * @return Post The retrieved post or null if not found.
-     */
-    public static XPostOLD getPost(int id) {
-        for (XPostOLD post : posts) {
-            if (post.getId() == id) {
-                return post;
-            }
-        }
-        return null;
-    }
+
     
     protected Posts findPostById(String postId) throws DoesNotExistException {
         int intPostId = Integer.parseInt(postId);
@@ -257,20 +237,7 @@ public ArrayList<Posts> getPosts() {
         return post.getUsersCollection().contains(user);
 
     }
-/**
-     * Retrieves a post based on its ID.
-     *
-     * @param postId The ID of the post to retrieve.
-     * @return Post The retrieved post or null if not found.
-     */
-    public static XPostOLD showPost(int postId) {
-        for (XPostOLD post : posts) {
-            if (post.getId() == postId) {
-                return post;
-            }
-        }
-        return null;
-    }
+
     /**
      * Displays the details of all posts as a string.
      *
@@ -306,37 +273,4 @@ public ArrayList<Posts> getPosts() {
 
 
 
-    /* Generate an unique Id for new post based on the existing list of posts */
-    public static int generateUniqueId() {
-        List<Integer> listOfExistingId = new ArrayList<Integer>();
-        // Assuming User has a method getId() that returns an int
-        for (XPostOLD post : MockDatabase.getPosts()) {
-            listOfExistingId.add(post.getId());
-        }
-        // If there are no IDs, start with 1 (or any other starting point you prefer)
-        if (listOfExistingId.isEmpty()) {
-            return 1;
-        }
-        // Find the maximum ID in the list
-        int maxId = listOfExistingId.stream().max(Integer::compare).get();
-        // Return the next ID which is 1 more than the maximum ID found
-        return maxId + 1;
-    }
-
-    /* Generate an unique Id for new post based on the existing list of posts */
-    public static int generateUniqueIdForComment() {
-        List<Integer> listOfExistingId = new ArrayList<Integer>();
-        // Assuming User has a method getId() that returns an int
-        for (XCommentOLD comment : MockDatabase.getComments()) {
-            listOfExistingId.add(comment.getId());
-        }
-        // If there are no IDs, start with 1 (or any other starting point you prefer)
-        if (listOfExistingId.isEmpty()) {
-            return 1;
-        }
-        // Find the maximum ID in the list
-        int maxId = listOfExistingId.stream().max(Integer::compare).get();
-        // Return the next ID which is 1 more than the maximum ID found
-        return maxId + 1;
-    }
 }

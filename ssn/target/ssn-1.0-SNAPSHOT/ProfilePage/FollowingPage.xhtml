@@ -58,14 +58,16 @@
             <!-- Title for Following Section -->
             <p class="has-text-centered title">Following</p>
             <ui:repeat value="#{loginBean.getCurrentUser().getUsersCollection1()}" var="following">
-                    <h:link outcome="#{userBean.goToProfilePage(following)}">
+                <h:form>
+                    <h:commandLink action="#{userBean.goToProfilePage(following)}">
                         <div class="box m-3">
                             <span sstyle="cursor: pointer; color: black;" onmouseover="this.style.color='blue'" onmouseout="this.style.color='black'">
                                 <h:outputText value="#{following.getUsername()}" />
                             </span>
                             <span>(Followers: #{following.getUsersCollection().size()})</span>
                         </div>
-                    </h:link>
+                    </h:commandLink>
+                </h:form>
             </ui:repeat>
         </div>
         <!-- Right Column for Followers List -->

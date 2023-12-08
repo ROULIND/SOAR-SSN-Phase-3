@@ -41,7 +41,7 @@
                     
                 <h:form>
                     <p:growl id="messages" showDetail="false"/>
-                    <p:commandButton id="dynaButton" value="Settings" type="button" icon="pi pi-cog" styleClass="bbutton"/>
+                    <p:commandButton id="dynaButton" value="Settings" type="button" icon="pi pi-cog" styleClass="button"/>
                     <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
                         <p:submenu label="Your Profile">
                             <p:menuitem value="My profile" action="#{userBean.goToProfilePage(loginBean.getCurrentUser())}" update="messages" icon="pi pi-user"/>
