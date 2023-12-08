@@ -120,7 +120,8 @@ public class PostBean implements Serializable {
      * @param user The user creating the post.
      * @return String The navigation outcome.
      */
-    public String createPost(XUserOLD user) {
+    @Transactional
+    public String createPost(Users user) {
         String text = this.currentPostText;
 
         try {
@@ -138,10 +139,15 @@ public class PostBean implements Serializable {
             text = text.replaceAll("(.{150})", "$1\n");
 
             // Create a new publication and add it to the list of publications
-            XPostOLD post = new XPostOLD(generateUniqueId(), user.getId(), text, new Date());
-            posts.add(post);
-            // Also add the new post to the MockDatabase's list of posts
-            MockDatabase.addAPost(post);
+            Posts newPost = new Posts();
+            newPost.setText(this.currentPostText);
+            newPost.setUsers(user);
+
+            em.persist(newPost);
+            user.getPostsCollection().add(newPost);
+            em.merge(user);
+            newPost.setDatePublished(new Date()); // Set the current date and time manually
+            em.persist(newPost);
 
             this.currentPostText = "";
             this.errorMessage = null;  // Reset error message on success
@@ -166,17 +172,16 @@ public class PostBean implements Serializable {
      *
      * @return List<Posts> The reversed list of posts.
      */
-    public ArrayList<Posts> getPosts() {
-        
-        Query query = em.createNamedQuery("Posts.findAll");
-        return new ArrayList<>(query.getResultList());
-        
-        /*
-        // Reverse the new list
-        Collections.reverse(reversedPosts);
+public ArrayList<Posts> getPosts() {
+    Query query = em.createNamedQuery("Posts.findAll");
+    List<Posts> postList = new ArrayList<>(query.getResultList());
 
-        return reversedPosts;*/
-    }
+    // Reverse the new list
+    Collections.reverse(postList);
+
+    return new ArrayList<>(postList); // Return a copy to avoid unintended modifications
+}
+
 /**
      * Toggles the like status for a post by a user.
      *

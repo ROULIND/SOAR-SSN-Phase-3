@@ -11,7 +11,6 @@
         <h:outputStylesheet name="css/UserPage.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
-        <title>SSN Social Network</title>
     </h:head>
     <h:body>
         <!-- Network Logo -->
@@ -57,7 +56,7 @@
                                     <p:menuitem value="My account" action="#{userBean.goToInfoPage(loginBean.currentUser)}" update="messages" icon="pi pi-user"/>
                                 </p:submenu>
                                 <p:submenu label="Logout">
-                                    <p:menuitem value="Log-out" icon="pi pi-sign-out" action="#{loginBean.getCurrentUser()}"/>
+                                    <p:menuitem value="Log-out" icon="pi pi-sign-out" action="#{loginBean.userLogsout()}"/>
                                 </p:submenu>
                             </p:menu>
                         </h:form>
