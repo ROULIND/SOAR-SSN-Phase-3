@@ -34,7 +34,7 @@ INSERT INTO Users (first_name, last_name, username, email, pictureProfile, passw
 ('Victor', 'Wells', 'victorW', 'victor.wells@email.com', 'Sierro4-PP.jpeg', 1509442),
 ('Wendy', 'Lee', 'wendyL', 'wendy.lee@email.com', 'Benoit-PP.jpeg', 1509442),
 ('Xavier', 'Chang', 'xavierC', 'xavier.chang@email.com', 'BoldGuy-PP.jpeg', 1509442),
-('Yara', 'Hernandez', 'yaraH', 'yaraH.hernandez@email.com', 'DimiAI-PP.jpeg', 1509442),
+('YaraB', 'HernandezB', 'yaraB', 'yaraB.hernandez@email.com', 'DimiAI-PP.jpeg', 1509442),
 ('Zane', 'Reyes', 'zaneR', 'zane.reyes@email.com', 'SierroBeer.jpeg', 1509442),
 ('Ava', 'Perez', 'avaP', 'ava.perez@email.com', 'MehdiMale-PP.jpeg', 1509442),
 ('Benjamin', 'Harrison', 'benjaminH', 'benjamin.harrison@email.com', 'Baguette-PP.jpeg', 1509442),
