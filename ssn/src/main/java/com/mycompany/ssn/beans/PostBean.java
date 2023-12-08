@@ -172,17 +172,16 @@ public class PostBean implements Serializable {
      *
      * @return List<Posts> The reversed list of posts.
      */
-    public ArrayList<Posts> getPosts() {
-        
-        Query query = em.createNamedQuery("Posts.findAll");
-        return new ArrayList<>(query.getResultList());
-        
-        /*
-        // Reverse the new list
-        Collections.reverse(reversedPosts);
+public ArrayList<Posts> getPosts() {
+    Query query = em.createNamedQuery("Posts.findAll");
+    List<Posts> postList = new ArrayList<>(query.getResultList());
 
-        return reversedPosts;*/
-    }
+    // Reverse the new list
+    Collections.reverse(postList);
+
+    return new ArrayList<>(postList); // Return a copy to avoid unintended modifications
+}
+
 /**
      * Toggles the like status for a post by a user.
      *
