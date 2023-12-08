@@ -1,10 +1,6 @@
 package com.mycompany.ssn.beans;
 
-import com.mycompany.ssn.v1.Models.XPostOLD;
-import com.mycompany.ssn.v1.Models.XUserOLD;
 import com.mycompany.ssn.v1.Models.Users;
-import com.mycompany.ssn.v1.controllers.UserController;
-import com.mycompany.ssn.v1.database.MockDatabase;
 import com.mycompany.ssn.v1.exceptions.AlreadyExistsException;
 import com.mycompany.ssn.v1.exceptions.DoesNotExistException;
 import com.mycompany.ssn.v1.exceptions.UnauthorizedActionException;
@@ -251,26 +247,6 @@ public class UserBean implements Serializable {
 
 
 
-    /**
-     * Generates a unique ID for a new user.
-     *
-     * @return int The generated unique ID.
-     */    
-    public int generateUniqueId() {
-        List<Integer> listOfExistingId = new ArrayList<Integer>();
-        // Assuming User has a method getId() that returns an int
-        for (XUserOLD user : MockDatabase.getUsers()) {
-            listOfExistingId.add(user.getId());
-        }
-        // If there are no IDs, start with 1 (or any other starting point you prefer)
-        if (listOfExistingId.isEmpty()) {
-            return 1;
-        }
-        // Find the maximum ID in the list
-        int maxId = listOfExistingId.stream().max(Integer::compare).get();
-        // Return the next ID which is 1 more than the maximum ID found
-        return maxId + 1;
-    }
 
 /**
  * Gets the email of the user.
@@ -453,34 +429,7 @@ public class UserBean implements Serializable {
         }
         
     }
-    
-/**
- * Removes a user from the followers list of another user.
- *
- * @param user The user to remove.
- * @param userToUnfollow The user to remove from the followers list.
- */
-    public static void removeUserFromFollowersList(XUserOLD user, XUserOLD userToUnfollow) {
-        // Make sure userToUnfollow is following user
-        if (!userToUnfollow.getFollowing().contains(user)) {
-            return;
-        }
-        user.getFollowers().remove(userToUnfollow);
-    }
 
-/**
- * Removes a user from the followed list of another user.
- *
- * @param user The user to remove.
- * @param userToUnfollow The user to remove from the followed list.
- */
-    public static void removeUserFromFollowedList(XUserOLD user, XUserOLD userToUnfollow) {
-        // Make sure userToUnfollow is following user
-        if (!userToUnfollow.getFollowers().contains(user)) {
-            return;
-        }
-        user.getFollowing().remove(userToUnfollow);
-    }
 
 /**
  * Checks if the current user is following another user.
@@ -497,50 +446,6 @@ public class UserBean implements Serializable {
             return false;
         }
     }
-    
-    
-// Work in progress for the next phase 3
-    public void uploadProfilePicture(XUserOLD currentUser) throws MessagingException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        System.out.println("uploadProfilePicture called");
-        if (uploadedFile == null) {
-            System.out.println("uploadedFile is null");
-        }
-        
-        if (uploadedFile != null) {
-            try {
-                String filename = currentUser + "-PP";
-
-                // Define the path where the file will be saved
-                String uploadsDir = "/uploads/";
-                String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(uploadsDir);
-                
-                // Create the uploads directory if it doesn't exist
-                File file = new File(realPath);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-
-                // Save the file
-                InputStream input = uploadedFile.getInputStream();
-                String filePath = realPath + filename;
-                Files.copy(input, new File(filePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                currentUser.setProfilePicture(uploadsDir + filename);
-                // Update the currentUser in database or session
-
-                context.addMessage(null, new FacesMessage("Profile picture uploaded successfully!"));
-            } catch (IOException e) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload failed", null));
-                Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, e);
-            }
-        } else {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No file selected", null));
-        }
-    }
-
-    
-
 
 
     
