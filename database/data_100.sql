@@ -65,7 +65,7 @@ INSERT INTO Users (first_name, last_name, username, email, pictureProfile, passw
 ('Aaron', 'Fleming', 'aaronF', 'aaron.fleming@email.com', 'BoldGuy2-PP.jpeg', 1509442),
 ('Bella', 'Rossi', 'bellaR', 'bella.rossi@email.com', 'Dimi-PP.jpeg', 1509442),
 ('Cameron', 'Gibson', 'cameronG', 'cameron.gibson@email.com', 'GlassesGuy-PP.jpeg', 1509442),
-('Delilah', 'Barrett', 'delilahB', 'delilah.barrett@email.com', 'Lafouine-PP.jpeg', 1509442),
+('Delilah', 'Barrett', 'delilahB', 'delilahB.barrett@email.com', 'Lafouine-PP.jpeg', 1509442),
 ('Ezra', 'McCarthy', 'ezraM', 'ezra.mccarthy@email.com', 'Leo-PP.jpeg', 1509442),
 ('Freya', 'Bishop', 'freyaB', 'freya.bishop@email.com', 'MedhiFemale-PP.jpeg', 1509442),
 ('Gideon', 'Owens', 'gideonO', 'gideon.owens@email.com', 'Melvin-PP.jpeg', 1509442),
