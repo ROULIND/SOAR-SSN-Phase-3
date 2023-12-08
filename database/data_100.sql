@@ -52,7 +52,7 @@ INSERT INTO Users (first_name, last_name, username, email, pictureProfile, passw
 ('Nora', 'Watson', 'noraW', 'nora.watson@email.com', 'ThumbsUp-PP.jpeg', 1509442),
 ('Oscar', 'Harrison', 'oscarH', 'oscar.harrison@email.com', 'Gretz-PP.jpeg', 1509442),
 ('Penelope', 'Wright', 'penelopeW', 'penelope.wright@email.com', 'Sierro3-PP.jpeg', 1509442),
-('Quincy', 'Powell', 'quincyP', 'quincy.powell@email.com', 'Jona-PP.jpeg', 1509442),
+('Quincy', 'Powell', 'quincyP', 'quincyP.powell@email.com', 'Jona-PP.jpeg', 1509442),
 ('Riley', 'Fisher', 'rileyF', 'riley.fisher@email.com', 'Denizkun-pp.jpeg', 1509442),
 ('Sofia', 'Martinez', 'sofiaM', 'sofia.martinez@email.com', 'Sierro4-PP.jpeg', 1509442),
 ('Theo', 'Simmons', 'theoS', 'theo.simmons@email.com', 'Benoit-PP.jpeg', 1509442),
@@ -82,7 +82,7 @@ INSERT INTO Users (first_name, last_name, username, email, pictureProfile, passw
 ('Rachel', 'Porter', 'rachelP', 'rachel.porter@email.com', 'BoldGuy-PP.jpeg', 1509442),
 ('Samuel', 'Nguyen', 'samuelN', 'samuel.nguyen@email.com', 'DimiAI-PP.jpeg', 1509442),
 ('Tessa', 'Harrison', 'tessaH', 'tessa.harrison@email.com', 'SierroBeer.jpeg', 1509442),
-('Uriah', 'Lopez', 'uriahL', 'uriah.lopez@email.com', 'MehdiMale-PP.jpeg', 1509442);
+('Uriah', 'Lopez', 'uriahL', 'uriah.lopez@email.com', 'MehdiMale-PP.jpeg', 1509442),
 ('Violet', 'Chang', 'violetC', 'violet.chang@email.com', 'Baguette-PP.jpeg', 1509442),
 ('Winston', 'Gomez', 'winstonG', 'winston.gomez@email.com', 'Benoit2-PP.jpeg', 1509442),
 ('Xavier', 'Martinez', 'xavierM', 'xavier.martinez@email.com', 'BoldGuy2-PP.jpeg', 1509442),
