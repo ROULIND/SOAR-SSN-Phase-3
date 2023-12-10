@@ -78,7 +78,7 @@ public class Users implements Serializable {
     private Collection<Comments> commentsCollection;
     @OneToMany(mappedBy = "users")
     private Collection<Posts> postsCollection1;
-
+    
     public Users() {
     }
 
