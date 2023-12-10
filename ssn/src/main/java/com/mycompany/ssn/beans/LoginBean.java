@@ -1,6 +1,6 @@
 package com.mycompany.ssn.beans;
 
-import com.mycompany.ssn.v1.Models.XUserOLD;
+
 import com.mycompany.ssn.v1.Models.Users;
 import com.mycompany.ssn.v1.exceptions.DoesNotExistException;
 import jakarta.enterprise.context.SessionScoped;

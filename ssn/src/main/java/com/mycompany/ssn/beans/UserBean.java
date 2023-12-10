@@ -1,5 +1,9 @@
 package com.mycompany.ssn.beans;
 
+import com.mycompany.ssn.v1.Models.Comments;
+import com.mycompany.ssn.v1.Models.Followers;
+import com.mycompany.ssn.v1.Models.Likes;
+import com.mycompany.ssn.v1.Models.Posts;
 import com.mycompany.ssn.v1.Models.Users;
 import com.mycompany.ssn.v1.exceptions.AlreadyExistsException;
 import com.mycompany.ssn.v1.exceptions.DoesNotExistException;
@@ -141,57 +145,80 @@ public class UserBean implements Serializable {
     }
 
 
-/**
+    /**
      * Deletes a user, removing associated posts, likes, and comments.
      *
      * @return String The navigation outcome.
      */    
-    /*public String deleteAUser() {
+    @Transactional
+    public String deleteAUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         
-        try {
-            Query query = em.createNamedQuery("Users.findByUsername");
-            List<Users> users = query.setParameter("username", this.username).getResultList();
-            Users userToDelete = users.get(0);
-            if (userToDelete != null) {
-                
-                // Remove the user's posts
-               userToDelete.getPostsCollection().empty();
-                      
-                
-                // Remove the user from the users list
-                MockDatabase.getUsers().remove(userToDelete);
-
-                // Remove the user from other users' followers and following lists
-                for (Users user : MockDatabase.getUsers()) {
-                    user.getFollowers().remove(userToDelete);
-                    user.getFollowing().remove(userToDelete);
-                }
-
-                // Iterate through all posts and remove likes associated with the user
-                for (PostOLD post : MockDatabase.getPosts()) {
-                    // Remove the user's ID from the post's likes
-                    post.getLikes().removeIf(likeUserId -> likeUserId == userToDelete.getId());
-                    post.getComments().removeIf(comment -> comment.getUserId() == userToDelete.getId());
-                }
-
-                
-                // Remove the user's posts and comments
-                MockDatabase.getPosts().removeIf(post -> post.getUserId() == userToDelete.getId());
-                MockDatabase.getComments().removeIf(comment -> comment.getUserId() == userToDelete.getId());
-                
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account successfully deleted.", null));
-                // Additional cleanup (e.g., session invalidation) goes here
-                
-                return "/MainPage/MainPage.xhtml?faces-redirect=true";
-            } else {
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User not found.", null));
+        Query query = em.createNamedQuery("Users.findByUsername");
+        List<Users> users = query.setParameter("username", this.username).getResultList();
+        Users userToDelete = users.get(0);
+        
+        if (userToDelete != null) {
+            
+            // Assuming cascade settings are not set to automatically delete related entities
+            // You would need to manually remove related items like comments, likes, etc. linked to each post
+            // For example: deleteCommentsRelatedToPost(post);
+            
+            // Iterate over the user's posts and delete them
+            for (Posts post : new ArrayList<>(userToDelete.getPostsCollection1())) {
+                em.remove(post);  // Remove the post
             }
-        } catch (DoesNotExistException e) {
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+            
+            
+            
+            
+            for (Comments comment : new ArrayList<>(userToDelete.getCommentsCollection())) {
+                em.remove(comment);  // Remove the post
+            }
+            
+           Query queryLikes = em.createNamedQuery("Likes.findByUsername");
+            List<Likes> likes = queryLikes.setParameter("userId", userToDelete.getUserId() ).getResultList();
+
+            for (Likes like : likes) {
+                em.remove(like);
+            }
+
+            
+            // List of all the followers related to the user
+            Query queryFollowers = em.createNamedQuery("Followers.findByFollowerUsername");
+            List<Followers> followers = queryFollowers.setParameter("username", this.username).getResultList();
+            // loop delete all of them
+            for (Followers follower : followers) {
+                em.remove(follower); // Corrected to remove individual follower entity
+            }
+
+            // List of all the followings related to the user
+            Query queryFollowing = em.createNamedQuery("Followers.findByFollowedUsername");
+            List<Followers> followings = queryFollowing.setParameter("username", this.username).getResultList();
+            // loop delete all of them
+            for (Followers following : followings) {
+                em.remove(following); // Correctly removing individual following entity
+            }
+            
+            
+            
+       
+            
+            
+            em.remove(userToDelete);
+            
+            return "/MainPage/MainPage.xhtml?faces-redirect=true";
+        } else {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User not found.", null));
         }
         return null;
-    }*/
+    }
+    
+    public void getAllPostLikedByUser(Users user) {
+        // List of all the followings related to the user
+        
+        
+    }
 
 /**
      * Modifies user information and updates the MockDatabase.
