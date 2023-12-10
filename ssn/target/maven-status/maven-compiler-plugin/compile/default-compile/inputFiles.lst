@@ -1,4 +1,5 @@
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/exceptions/DoesNotExistException.java
+/Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/Models/Followers.java
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/exceptions/UnauthorizedActionException.java
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/beans/UserBean.java
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/Models/Comments.java
@@ -13,3 +14,4 @@
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/exceptions/AlreadyExistsException.java
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/beans/PostBean.java
 /Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/Models/Users.java
+/Users/dimitriroulin/Documents/Master/Software-Architectures/SOAR-SSN-Project-v3-final/Untitled/ssn/src/main/java/com/mycompany/ssn/v1/Models/Likes.java

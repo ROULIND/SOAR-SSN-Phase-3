@@ -1,5 +1,7 @@
 package com.mycompany.ssn.v1.Models; 
 
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -19,8 +21,11 @@ import jakarta.persistence.NamedQuery;
 })
 public class Followers {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "follower_id")
     private Integer followerId;
 
     @ManyToOne

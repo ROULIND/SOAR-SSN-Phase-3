@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -79,15 +80,35 @@ public class CommentBean implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Comment must be between 1 and 256 characters long", null));
         }
         else{
+            /*
+            Posts newPost = new Posts();
+            newPost.setText(this.currentPostText);
+            newPost.setUsers(user);
+
+            em.persist(newPost);
+            user.getPostsCollection().add(newPost);
+            em.merge(user);
+            newPost.setDatePublished(new Date()); // Set the current date and time manually
+            em.persist(newPost);
+            
+            */
+            
+           
+            
             Comments comment = new Comments();
             comment.setText(this.currentCommentText);
             comment.setUsers(user);
-
-            em.persist(comment);
+            comment.setPostId(post);
 
             // Add the comment to the post
             post.getCommentsCollection().add(comment);
             em.merge(post);
+            
+            
+            comment.setDatePublished(new Date());
+            em.persist(comment);
+
+            
             this.currentCommentText = ""; // reset the comment handler
         }
 

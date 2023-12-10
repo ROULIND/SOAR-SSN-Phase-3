@@ -176,37 +176,33 @@ public class UserBean implements Serializable {
                 em.remove(comment);  // Remove the post
             }
             
-            
-            String sqlQuery = "SELECT l.post_id FROM Likes l WHERE l.user_id = :userId";   
-            List<Object> postIds = em.createNativeQuery(sqlQuery).setParameter("userId", userToDelete.getUserId()).getResultList();
-            
-            for (Object postId : postIds) {// Process each post_id value         
-                Query queryPost2 = em.createNamedQuery("Posts.findByPostId");
-                List<Posts> posts = queryPost2.setParameter("postId", postId).getResultList();
-                // loop delete all of them
-                for (Posts post : posts) {
-                    post.getUsersCollection().remove(userToDelete);
-                    em.merge(post);
-                }
+           Query queryLikes = em.createNamedQuery("Likes.findByUsername");
+            List<Likes> likes = queryLikes.setParameter("userId", userToDelete.getUserId() ).getResultList();
+
+            for (Likes like : likes) {
+                em.remove(like);
             }
 
             
             // List of all the followers related to the user
-            Query querryFollowers = em.createNamedQuery("Followers.findByFollowerUsername");
-            List<Followers> followers = querryFollowers.setParameter("username", this.username).getResultList();
+            Query queryFollowers = em.createNamedQuery("Followers.findByFollowerUsername");
+            List<Followers> followers = queryFollowers.setParameter("username", this.username).getResultList();
             // loop delete all of them
             for (Followers follower : followers) {
-                  em.remove(followers);
+                em.remove(follower); // Corrected to remove individual follower entity
             }
-            
-            
+
             // List of all the followings related to the user
             Query queryFollowing = em.createNamedQuery("Followers.findByFollowedUsername");
             List<Followers> followings = queryFollowing.setParameter("username", this.username).getResultList();
             // loop delete all of them
             for (Followers following : followings) {
-                  em.remove(following);
+                em.remove(following); // Correctly removing individual following entity
             }
+            
+            
+            
+       
             
             
             em.remove(userToDelete);
@@ -216,6 +212,12 @@ public class UserBean implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User not found.", null));
         }
         return null;
+    }
+    
+    public void getAllPostLikedByUser(Users user) {
+        // List of all the followings related to the user
+        
+        
     }
 
 /**

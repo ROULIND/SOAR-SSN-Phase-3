@@ -122,6 +122,7 @@ public class PostBean implements Serializable {
             Posts newPost = new Posts();
             newPost.setText(this.currentPostText);
             newPost.setUsers(user);
+    
 
             em.persist(newPost);
             user.getPostsCollection().add(newPost);
@@ -216,6 +217,7 @@ public ArrayList<Posts> getPosts() {
 
         // Removes a like from the post
         post.getUsersCollection().remove(user);
+        em.merge(post);
     }
 
 /**
