@@ -122,13 +122,13 @@ public class PostBean implements Serializable {
             Posts newPost = new Posts();
             newPost.setText(this.currentPostText);
             newPost.setUsers(user);
-    
-
-            em.persist(newPost);
-            user.getPostsCollection().add(newPost);
-            em.merge(user);
             newPost.setDatePublished(new Date()); // Set the current date and time manually
             em.persist(newPost);
+
+
+            user.getPostsCollection().add(newPost);
+            em.merge(user);
+            
 
             this.currentPostText = "";
             this.errorMessage = null;  // Reset error message on success
